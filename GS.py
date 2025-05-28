@@ -1,3 +1,6 @@
+import matplotlib as plt
+import numpy as np
+
 def forcaOpcao(stg, listaOpcao):
     exibirOpcoes = '\n'.join((listaOpcao))
     opcao = input(f"{stg}\n{exibirOpcoes}\n")
@@ -35,7 +38,8 @@ def calcularMedia(stg,array,stg1,medida):
         soma += array[i]
     media = soma / len(array)
     print("\n")
-    print(f"A media semanal do nível da água foi {int (media)} {medida}")
+    print(f"A media semanal {stg1} foi {int (media)} {medida}")
+
     return media
 
 def garanteTelefone(stg):
@@ -44,6 +48,13 @@ def garanteTelefone(stg):
         telefone = garanteNumero(stg)
     return telefone
 
+def media(array,stg1,medida):
+    soma = 0
+    for i in range(len(array)):
+        print(f"{diasDaSemana[i]} {stg1} {array[i]} {medida}")
+        soma += array[i]
+    medias = soma / len(array)
+    return medias
 
 #Boas vindas
 comecar = ['sim', 'não']
@@ -87,16 +98,14 @@ else:
 
 
         #Dados tirados do arduino
-        historicoNvlAgua = [200,100,115, 170,240, 166]
-        historicoUmidade = [80,60,75,90,57,66]
-        historicoTemperatura = [20, 27, 35, 20, 17, 12]
+        historicoNvlAgua = [200,100,115,170,240,166,187]
+        historicoUmidade = [80,60,75,90,57,66,99]
+        historicoTemperatura = [20, 27, 35, 20, 17, 12, 11]
 
 
-        mediaNvlAgua = calcularMedia("Qual era o nivel da água no", historicoNvlAgua, "o nível da água foi",
-                                         " centímetros")
-        mediaUmidade = calcularMedia("Qual era a porcentagem da umidade no", historicoUmidade,
-                                         "a porcentagem da umidade foi", "%")
-        mediaTemperatura = calcularMedia("qual era a temperatura no", historicoTemperatura, "a temperatura foi", "°C")
+        mediaNvlAgua = media(historicoNvlAgua,"o nível da água foi"," centímetros")
+        mediaUmidade = media(historicoUmidade,"a porcentagem da umidade foi","%")
+        mediaTemperatura = media(historicoTemperatura,"a temperatura foi","°C")
 
         # alerta de acordo com a media da agua
         if mediaNvlAgua > 200:
@@ -187,3 +196,4 @@ else:
             print(f"Ok, quaso haja futuros incidentes na sua região mandaremos uma menagem, muito obrigado {nome}")
         else:
             print(f"Tudo bem, qualquer coisa acesse o AquaGuard e mude sua opção, até mais {nome}")
+
