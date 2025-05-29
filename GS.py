@@ -6,6 +6,7 @@ diasDaSemana = ['domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sab
 anoAtual = 2025
 continuar = ['sim', 'não']
 
+# Função para forçar o usuário a escolher uma opção válida de uma lista
 def forcaOpcao(stg, listaOpcao):
     exibirOpcoes = '\n'.join((listaOpcao))
     opcao = input(f"{stg}\n{exibirOpcoes}\n")
@@ -13,16 +14,7 @@ def forcaOpcao(stg, listaOpcao):
         opcao = input(f"{stg}\n")
     return opcao
 
-
-def garanteNumero(stg):
-    num = input(stg)
-    while not num.isnumeric():
-        print("Inválido")
-        num = input(stg)
-    num = int(num)
-    return num
-
-
+# Função para garantir que o usuário digite uma string (não numérica)
 def garanteString(stg):
     string = input(stg)
     while string.isnumeric():
@@ -30,7 +22,7 @@ def garanteString(stg):
         string = input(stg)
     return string
 
-
+# Função para calcular a média de valores inseridos pelo usuário para cada dia da semana
 def calcularMedia(stg, array, stg1, medida):
     i = 0
     soma = 0
@@ -50,18 +42,18 @@ def calcularMedia(stg, array, stg1, medida):
 
     return media
 
-
-def garanteTelefone(stg):
+# Função para garantir que o usuário digite um número com quantidade de dígitos específica
+def garanteNumero(stg,qtd):
     telefone = input(stg)
-    if len(telefone) != 13:
-        telefone = garanteTelefone(stg)
+    if len(telefone) != qtd:
+        telefone = garanteNumero(stg)
     else:
         while not telefone.isnumeric():
-            telefone = garanteTelefone()
+            telefone = garanteNumero()
         telefone = int(telefone)
     return telefone
 
-
+# Função para calcular a média de um array e exibir os valores
 def media(array, stg1, medida):
     soma = 0
     for i in range(len(array)):
@@ -70,7 +62,7 @@ def media(array, stg1, medida):
     medias = soma / len(array)
     return medias
 
-
+# Função para alertar sobre o nível médio da água
 def alertaMediaAgua(mediaNvlAgua):
     if mediaNvlAgua > 200:
         print("PERIGO!!! nível da água está muito alto")
@@ -79,7 +71,7 @@ def alertaMediaAgua(mediaNvlAgua):
     else:
         print("Fique tranquilo, o nível da água está baixo")
 
-
+# Função para alertar sobre a possibilidade de chuva com base na umidade
 def alertaChuva(historicoUmidade):
     for i in range(len(historicoUmidade)):
         if historicoUmidade[i] > 70 and historicoUmidade[i] < 85:
@@ -89,7 +81,7 @@ def alertaChuva(historicoUmidade):
         else:
             print(f"{diasDaSemana[i]}, umidade normal sem riscos de chuva")
 
-
+# Função para alertar sobre a média de temperatura
 def alertaMediaTerperatura(mediaTemperatura):
     if mediaTemperatura > 30:
         print("Está muito quente")
@@ -102,6 +94,7 @@ def alertaMediaTerperatura(mediaTemperatura):
     else:
         print("Muito frio")
 
+# Função para gerar gráfico dos dados semanais
 def gerarGrafico(diasDaSemana,historicoNvlAgua,historicoUmidade,historicoTemperatura):
     dias = np.arange(len(diasDaSemana))
     plt.figure(figsize=(10, 6))
@@ -117,8 +110,15 @@ def gerarGrafico(diasDaSemana,historicoNvlAgua,historicoUmidade,historicoTempera
     plt.tight_layout()
     plt.show()
     print("Obrigado por usar o AquaGuard, tenha uma boa semana, flw 🙋‍♀️🙋‍♂️")
-    
-# Boas vindas
+
+# Função para exibir mensagem final ao usuário
+def mensagemFinal(pode):
+    if pode == 'sim':
+        print(f"Ok, quaso haja futuros incidentes na sua região mandaremos uma menagem, muito obrigado {nome}")
+    else:
+        print(f"Tudo bem, qualquer coisa acesse o AquaGuard e mude sua opção, até mais {nome}")
+
+# Início do programa - Boas vindas
 comecar = forcaOpcao("Olá poderia preencher um pré cadastro para usar o site?", continuar)
 if comecar == 'não':
     print("Tudo bem, tenha uma boa semana, flw 🙋‍♀️🙋‍♂️")
@@ -126,13 +126,12 @@ if comecar == 'não':
     # continua codigo
 else:
 
-
-    # cadastro
+    # cadastro do usuário
     nome = garanteString("Digite seu nome: ")
-    anoDeNascimento = garanteNumero("Digite seu ano de nascimento: ")
+    anoDeNascimento = garanteNumero("Digite seu ano de nascimento: ",4)
     idade = anoAtual - anoDeNascimento
-    cep = garanteNumero("Digite seu cep: ")
-    telefone = garanteTelefone("Digite seu telefone (formato = 5511999999999): ")
+    cep = garanteNumero("Digite seu cep: ",8)
+    telefone = garanteNumero("Digite seu telefone (formato = 5511999999999): ",13)
     cargo = garanteString("Qual seu cargo? ")
 
     print("\n")
@@ -141,7 +140,7 @@ else:
     print(
         "Aqui você poderá ver sobre o nível da aguá e umidade em cada dia da semana e sua média, alem da temperatura diaria da semana 🌡️🌡")
 
-    # entrada
+    # entrada para escolher tipo de usuário
     opcao = ["civil", "funcionário público"]
     escolha = forcaOpcao(
         "Você é um civil ou um funcionário público (diferença, civil dados semanais já computados, funcioário terá inputs para falar os dados): ",
@@ -149,11 +148,12 @@ else:
 
     if escolha == "civil":
 
-        # Dados tirados do arduino
+        # Dados simulados do arduino
         historicoNvlAgua = [200, 100, 115, 170, 240, 166, 187]
         historicoUmidade = [80, 60, 75, 90, 57, 66, 99]
         historicoTemperatura = [20, 27, 35, 20, 17, 12, 11]
 
+        # Cálculo e exibição das médias
         mediaNvlAgua = media(historicoNvlAgua, "o nível da água foi", " centímetros")
         pode = forcaOpcao("Pode continuar?",continuar)
 
@@ -167,26 +167,20 @@ else:
         print("ALERTA NÍVEL DA ÁGUA\n")
         alertaNvlAgua = alertaMediaAgua(mediaNvlAgua)
 
-
         # alerta de acordo com a umidade diaria
         print("ALERTA CHUVA\n")
         alertaUmidade = alertaChuva(historicoUmidade)
-
 
         # alerta de acordo com a media de temperatura
         print("ALERTA TEMPERATURA\n")
         alertaTemperatura = alertaMediaTerperatura(mediaTemperatura)
 
-
         print("\n")
         print(f"Obrigado pela sua atenção {nome}, muito bom saber que a pessoas de {idade} interressadas no AquaGuard")
         print(f"Sempre que você quiser saber mais sobre os dados do seu cep {cep}, só acessar o AquaGuard")
-        pode = forcaOpcao(f"Podemos mandar mensagem no telefone cadastrado {telefone}?", continuar)
-        if pode == 'sim':
-            print(f"Ok, quaso haja futuros incidentes na sua região mandaremos uma menagem, muito obrigado {nome}")
-        else:
-            print(f"Tudo bem, qualquer coisa acesse o AquaGuard e mude sua opção, até mais {nome}")
 
+        pode = forcaOpcao(f"Podemos mandar mensagem no telefone cadastrado {telefone}?", continuar)
+        mensagemFinal(pode)
         # gráfico
         grafico = gerarGrafico(diasDaSemana, historicoNvlAgua, historicoUmidade, historicoTemperatura)
 
@@ -196,43 +190,34 @@ else:
         senhaParaEntrada = forcaOpcao("Se você for mesmo um funcionário público digite a senha para entrada (1234): ",
                                       senhaDeEntrada)
 
-        # supostamente ligado ao projeto de Edge(arduino)
+        # Arrays para armazenar dados inseridos pelo funcionário público
         historicoNvlAgua = []
         historicoUmidade = []
         historicoTemperatura = []
 
+        # Coleta e cálculo das médias dos dados inseridos
         mediaNvlAgua = calcularMedia("Qual era o nivel da água no", historicoNvlAgua, "o nível da água foi",
                                      " centímetros")
         mediaUmidade = calcularMedia("Qual era a porcentagem da umidade no", historicoUmidade,
                                      "a porcentagem da umidade foi", "%")
         mediaTemperatura = calcularMedia("qual era a temperatura no", historicoTemperatura, "a temperatura foi", "°C")
 
-
         # alerta de acordo com a media da agua
         print("ALERTA NÍVEL DA ÁGUA\n")
         alertaNvlAgua = alertaMediaAgua(mediaNvlAgua)
-
-
 
         # alerta de acordo com a umidade diaria
         print("ALERTA CHUVA\n")
         alertaUmidade = alertaChuva(historicoUmidade)
 
-
-
         # alerta de acordo com a media de temperatura
         print("ALERTA TEMPERATURA\n")
         alertaTemperatura = alertaMediaTerperatura(mediaTemperatura)
-
 
         print("\n")
         print(
             f"Obrigado pela incrementação de dados {nome}, muito bom saber que a pessoas de {idade} estão trabalhando no AquaGuard e a favor do bem da população")
         pode = forcaOpcao(f"Podemos mandar mensagem no telefone cadastrado {telefone}?", continuar)
-        if pode == 'sim':
-            print(f"Ok, quaso haja futuros incidentes na sua região mandaremos uma menagem, muito obrigado {nome}")
-        else:
-            print(f"Tudo bem, qualquer coisa acesse o AquaGuard e mude sua opção, até mais {nome}")
-
+        mensagemFinal(pode)
         grafico = gerarGrafico(diasDaSemana, historicoNvlAgua, historicoUmidade, historicoTemperatura)
-        
+
