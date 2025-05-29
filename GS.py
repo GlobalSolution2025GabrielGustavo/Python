@@ -1,6 +1,10 @@
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import numpy as np
 
+# variaveis globais
+diasDaSemana = ['domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado']
+anoAtual = 2025
+continuar = ['sim', 'não']
 
 def forcaOpcao(stg, listaOpcao):
     exibirOpcoes = '\n'.join((listaOpcao))
@@ -98,18 +102,30 @@ def alertaMediaTerperatura(mediaTemperatura):
     else:
         print("Muito frio")
 
-
+def gerarGrafico(diasDaSemana,historicoNvlAgua,historicoUmidade,historicoTemperatura):
+    dias = np.arange(len(diasDaSemana))
+    plt.figure(figsize=(10, 6))
+    plt.plot(dias, historicoNvlAgua, marker='o', label='Nível da Água (cm)')
+    plt.plot(dias, historicoUmidade, marker='o', label='Umidade (%)')
+    plt.plot(dias, historicoTemperatura, marker='o', label='Temperatura (°C)')
+    plt.xticks(dias, diasDaSemana)
+    plt.xlabel('Dias da Semana')
+    plt.ylabel('Valores')
+    plt.title('Dados Semanais do AquaGuard')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+    print("Obrigado por usar o AquaGuard, tenha uma boa semana, flw 🙋‍♀️🙋‍♂️")
+    
 # Boas vindas
-continuar = ['sim', 'não']
 comecar = forcaOpcao("Olá poderia preencher um pré cadastro para usar o site?", continuar)
 if comecar == 'não':
     print("Tudo bem, tenha uma boa semana, flw 🙋‍♀️🙋‍♂️")
 
     # continua codigo
 else:
-    # variaveis globais
-    diasDaSemana = ['domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado']
-    anoAtual = 2025
+
 
     # cadastro
     nome = garanteString("Digite seu nome: ")
@@ -139,18 +155,28 @@ else:
         historicoTemperatura = [20, 27, 35, 20, 17, 12, 11]
 
         mediaNvlAgua = media(historicoNvlAgua, "o nível da água foi", " centímetros")
+        pode = forcaOpcao("Pode continuar?",continuar)
+
         mediaUmidade = media(historicoUmidade, "a porcentagem da umidade foi", "%")
+        pode = forcaOpcao("Pode continuar?", continuar)
+
         mediaTemperatura = media(historicoTemperatura, "a temperatura foi", "°C")
+        pode = forcaOpcao("Pode continuar?", continuar)
 
         # alerta de acordo com a media da agua
-
+        print("ALERTA NÍVEL DA ÁGUA\n")
         alertaNvlAgua = alertaMediaAgua(mediaNvlAgua)
 
+
         # alerta de acordo com a umidade diaria
+        print("ALERTA CHUVA\n")
         alertaUmidade = alertaChuva(historicoUmidade)
 
+
         # alerta de acordo com a media de temperatura
+        print("ALERTA TEMPERATURA\n")
         alertaTemperatura = alertaMediaTerperatura(mediaTemperatura)
+
 
         print("\n")
         print(f"Obrigado pela sua atenção {nome}, muito bom saber que a pessoas de {idade} interressadas no AquaGuard")
@@ -162,24 +188,8 @@ else:
             print(f"Tudo bem, qualquer coisa acesse o AquaGuard e mude sua opção, até mais {nome}")
 
         # gráfico
-        import matplotlib.pyplot as plt
-        import numpy as np
+        grafico = gerarGrafico(diasDaSemana, historicoNvlAgua, historicoUmidade, historicoTemperatura)
 
-        dias = np.arange(len(diasDaSemana))
-        plt.figure(figsize=(10, 6))
-        plt.plot(dias, historicoNvlAgua, marker='o', label='Nível da Água (cm)')
-        plt.plot(dias, historicoUmidade, marker='o', label='Umidade (%)')
-        plt.plot(dias, historicoTemperatura, marker='o', label='Temperatura (°C)')
-        plt.xticks(dias, diasDaSemana)
-        plt.xlabel('Dias da Semana')
-        plt.ylabel('Valores')
-        plt.title('Dados Semanais do AquaGuard')
-        plt.legend()
-        plt.grid(True)
-        plt.tight_layout()
-        plt.show()
-        print("Gráfico gerado com sucesso!")
-        print("Obrigado por usar o AquaGuard, tenha uma boa semana, flw 🙋‍♀️🙋‍♂️")
     # cadastro funcionário público
     else:
         senhaDeEntrada = ['1234']
@@ -197,14 +207,23 @@ else:
                                      "a porcentagem da umidade foi", "%")
         mediaTemperatura = calcularMedia("qual era a temperatura no", historicoTemperatura, "a temperatura foi", "°C")
 
+
         # alerta de acordo com a media da agua
+        print("ALERTA NÍVEL DA ÁGUA\n")
         alertaNvlAgua = alertaMediaAgua(mediaNvlAgua)
 
+
+
         # alerta de acordo com a umidade diaria
+        print("ALERTA CHUVA\n")
         alertaUmidade = alertaChuva(historicoUmidade)
 
+
+
         # alerta de acordo com a media de temperatura
+        print("ALERTA TEMPERATURA\n")
         alertaTemperatura = alertaMediaTerperatura(mediaTemperatura)
+
 
         print("\n")
         print(
@@ -215,4 +234,5 @@ else:
         else:
             print(f"Tudo bem, qualquer coisa acesse o AquaGuard e mude sua opção, até mais {nome}")
 
-
+        grafico = gerarGrafico(diasDaSemana, historicoNvlAgua, historicoUmidade, historicoTemperatura)
+        
