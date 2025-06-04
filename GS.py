@@ -29,7 +29,20 @@ def garanteSeIsnumeric(stg):
     while not num.isnumeric():
         print("🚫 Entrada inválida! Por favor, digite apenas números. Tente novamente.")
         num = input(stg)
-    return int(num)
+    return num
+
+# Função para garantir que o usuário digite um número com quantidade de dígitos específica
+def garanteNumero(stg,qtd):
+    # 1. Verifica se a entrada é numérica
+    entrada = garanteSeIsnumeric(stg)
+
+    # 2. Verifica se a entrada tem a quantidade de caracteres esperada
+    while not len(entrada) == qtd:
+            print(f"📏 Entrada inválida! O número deve ter exatamente {qtd} dígitos. Tente novamente.")
+            entrada = garanteSeIsnumeric(stg)
+
+     # Se chegou até aqui, a entrada é numérica E tem a quantidade correta de caracteres
+    return int(entrada) # Converte para int e retorna o valor
 
 # Função para calcular a média de valores inseridos pelo usuário para cada dia da semana
 def calcularMedia(stg, array, stg1, medida):
@@ -37,7 +50,7 @@ def calcularMedia(stg, array, stg1, medida):
     soma = 0
     print(f"\n--- 💧 Dados diários de {stg1} ---")
     while i < 7:
-        informacao = garanteSeIsnumeric(f"🗓️ {stg} {i + 1}° dia da semana: ")
+        informacao = int(garanteSeIsnumeric(f"🗓️ {stg} {i + 1}° dia da semana: "))
         array.append(informacao)
         i += 1
 
@@ -51,23 +64,6 @@ def calcularMedia(stg, array, stg1, medida):
 
     return media
 
-# Função para garantir que o usuário digite um número com quantidade de dígitos específica
-def garanteNumero(stg,qtd):
-    while True: # Loop infinito que só será quebrado quando a entrada for válida
-        entrada = input(stg) # Solicita a entrada ao usuário
-
-        # 1. Verifica se a entrada é numérica
-        if not entrada.isnumeric():
-            print("🚫 Entrada inválida! Por favor, digite apenas números. Tente novamente.")
-            continue # Volta para o início do loop (pede a entrada novamente)
-
-        # 2. Verifica se a entrada tem a quantidade de caracteres esperada
-        if not len(entrada) == qtd:
-            print(f"📏 Entrada inválida! O número deve ter exatamente {qtd} dígitos. Tente novamente.")
-            continue # Volta para o início do loop (pede a entrada novamente)
-
-        # Se chegou até aqui, a entrada é numérica E tem a quantidade correta de caracteres
-        return int(entrada) # Converte para int e retorna o valor
 
 # Função para calcular a média de um array e exibir os valores
 def media(array, stg1, medida):
@@ -164,7 +160,7 @@ if comecar == 'não':
 else:
 
     # cadastro do usuário
-    nome = garanteString("📝 Digite seu nome completo: ")
+    nome = garanteString("📝 Digite seu nome : ")
     anoDeNascimento = garanteNumero("🎂 Digite seu ano de nascimento (AAAA): ",4)
     idade = anoAtual - anoDeNascimento
     cep = garanteNumero("📍 Digite seu CEP (8 dígitos): ",8)
