@@ -1,6 +1,6 @@
 # 🌊 AquaGuard - Seu escudo contra enchentes! 🛡️
 
-![AquaGuard Banner](./images/logoAquaGuard)
+![AquaGuard Banner](./images/logoAquaGuard.png)
 
 > **AquaGuard** é um sistema de prevenção que auxilia civis e funcionários públicos a monitorar o nível da água, umidade e temperatura ao longo da semana, com alertas inteligentes para situações de risco! 🔔
 
