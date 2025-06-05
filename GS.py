@@ -1,3 +1,9 @@
+#Gabriel Akira Borges - RM: 565191
+#Gustavo Francisco Santos - RM: 561820
+#Sala: 1ESPJ
+
+# Projeto AquaGuard - Proteção contra enchentes e desastres hídricos
+
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
