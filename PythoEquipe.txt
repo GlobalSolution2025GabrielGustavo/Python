@@ -1,0 +1,5 @@
+RM:565191 Nome: Gabriel Akira
+RM:561820 Nome: Gustavo Santos
+
+link do Repositório do GitHub: https://github.com/GlobalSolution2025GabrielGustavo/Python.git
+link do video explicação do codigo: https://youtu.be/iqGGmcKvAhc 
